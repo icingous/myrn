@@ -1,26 +1,47 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Home from "./src/screen/home/Home";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hello World!</Text>
-      <StatusBar style='auto' />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Travel Store</Text>
+      <View style={styles.main}>
+        <Home />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'blueviolet',
-    color: '#FFF',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 12,
+    paddingTop: 16,
+    paddingBottom: 0,
+    marginTop: 0,
+    backgroundColor: "#222",
   },
-  text: {
-    color: '#FFF',
-    fontWeight: 'bold',
+  header: {
+    marginBottom: 4,
+    color: "bisque",
+    fontSize: 48,
+    textAlign: "center",
+  },
+  main: {
+    flex: 1,
+  },
+  statusBar: {
+    backgroundColor: "blueviolet",
   },
 });
+
+//<ActivityIndicator size color
+//react-native-indicators
+
+//TouchableWithoutFeedback onPress onLongPress onPressIn onPressOut
+//TouchableOpacity style activeOpacity(0.2) 0-1
+//TouchableHighlight(0.85) underlayColor
+
+//Pressable android_ripple={borderless, radius, color, foreground}
 
