@@ -1,15 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import Home from "./src/screen/home/Home";
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Travel Store</Text>
-      <View style={styles.main}>
-        <Home />
+    <>
+      <StatusBar barStyle={"light-content"}></StatusBar>
+      <View style={styles.container}>
+        <Text style={styles.header}>Travel Store</Text>
+        <View style={styles.main}>
+          <Home />
+        </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 }
 
