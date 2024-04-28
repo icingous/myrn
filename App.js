@@ -31,9 +31,6 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
-  statusBar: {
-    backgroundColor: "blueviolet",
-  },
 });
 
 //<ActivityIndicator size color
@@ -44,4 +41,3 @@ const styles = StyleSheet.create({
 //TouchableHighlight(0.85) underlayColor
 
 //Pressable android_ripple={borderless, radius, color, foreground}
-

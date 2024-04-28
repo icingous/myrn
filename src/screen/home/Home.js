@@ -19,7 +19,10 @@ const Home = () => {
 };
 
 const s = StyleSheet.create({
-  container: { gap: 16, paddingBottom: 50 },
+  container: {
+    gap: 16,
+    paddingBottom: 50,
+  },
   header: {
     fontSize: 26,
     textAlign: "center",
