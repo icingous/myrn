@@ -18,7 +18,7 @@ const Card = ({ data, index }) => {
         </View>
       )}
       <View style={s.cardDetails}>
-        <View style={{ paddingLeft: 12 }}>
+        <View style={s.cardInfo}>
           <View style={s.cardHeader}>
             <Text style={s.cardTitle}>{title}</Text>
             <View style={s.cardIcon}>
@@ -40,8 +40,11 @@ const Card = ({ data, index }) => {
             harum earum ut possimus voluptatem impedit quis vel beatae quod
             laborum.
           </Text>
-          <View style={s.cardIcon}>
-            <ShoppingCartIcon stroke="grey" />
+          <View style={s.cardBuy}>
+            <Text style={s.buyPrompt}>Buy</Text>
+            <View style={s.cardIcon}>
+              <ShoppingCartIcon stroke="grey" />
+            </View>
           </View>
         </View>
       </View>
@@ -53,6 +56,7 @@ const s = StyleSheet.create({
   card: {
     position: "relative",
     flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     height: 122,
     marginBottom: 16,
@@ -96,6 +100,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "stretch",
   },
+  cardInfo: { paddingLeft: 12, flex: 1 },
   cardTitle: {
     fontSize: 20,
     textTransform: "uppercase",
@@ -111,8 +116,18 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
+    gap: 10,
   },
   cardDescription: { color: "lightgrey", fontSize: 12, flex: 1 },
+  cardBuy: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 5,
+    padding: 0,
+  },
+  buyPrompt: {
+    color: "lightgrey",
+  },
   cardIcon: {
     width: 32,
     height: 32,

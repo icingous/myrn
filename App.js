@@ -1,9 +1,9 @@
-import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import Home from "./src/screen/home/Home";
 
 export default function App() {
   return (
-    <>
+    <SafeAreaView style={styles.app}>
       <StatusBar barStyle={"light-content"}></StatusBar>
       <View style={styles.container}>
         <Text style={styles.header}>Travel Store</Text>
@@ -11,11 +11,14 @@ export default function App() {
           <Home />
         </View>
       </View>
-    </>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  app: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 12,
