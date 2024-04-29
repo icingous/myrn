@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Card from "./components/Card";
 import { getItems } from "../../api/store";
+import SearchBar from "./components/SearchBar";
 
 const Home = () => {
   const items = getItems();
@@ -9,6 +10,7 @@ const Home = () => {
   return (
     <View style={s.container}>
       <Text style={s.header}>Popular</Text>
+      <SearchBar />
       <ScrollView style={s.content}>
         {items.map((item, i) => (
           <Card key={item.title} data={item} index={i} />

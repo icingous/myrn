@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import { LikeIcon, ShoppingCartIcon } from "../../../components/icons";
+import { colors } from "../../../constants/colors";
 
 const Card = ({ data, index }) => {
   const { title, like, oldPrice, price, isNew } = data;
@@ -40,8 +41,11 @@ const Card = ({ data, index }) => {
             harum earum ut possimus voluptatem impedit quis vel beatae quod
             laborum.
           </Text>
-          <View style={s.cardIcon}>
-            <ShoppingCartIcon stroke="grey" />
+          <View style={s.cardBuy}>
+            <Text style={s.buyPrompt}>Buy</Text>
+            <View style={s.cardIcon}>
+              <ShoppingCartIcon stroke="grey" />
+            </View>
           </View>
         </View>
       </View>
@@ -53,6 +57,7 @@ const s = StyleSheet.create({
   card: {
     position: "relative",
     flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     height: 122,
     marginBottom: 16,
@@ -111,8 +116,18 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
+    gap: 10,
   },
   cardDescription: { color: "lightgrey", fontSize: 12, flex: 1 },
+  cardBuy: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 5,
+    padding: 0,
+  },
+  buyPrompt: {
+    color: colors.light,
+  },
   cardIcon: {
     width: 32,
     height: 32,

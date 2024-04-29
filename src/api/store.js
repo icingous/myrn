@@ -48,4 +48,22 @@ export const getItems = () => [
     price: 4000,
     oldPrice: 5500,
   },
+  {
+    title: "Tour 8",
+    isNew: true,
+    image: "pizza7.avif",
+    price: 11000,
+  },
+  {
+    title: "Tour 9",
+    isNew: false,
+    image: "pizza7.avif",
+    price: 9100,
+  },
+  {
+    title: "Tour 10",
+    isNew: true,
+    image: "pizza7.avif",
+    price: 7700,
+  },
 ];
