@@ -1,21 +1,44 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import Card from "./components/Card";
-import { getItems } from "../../api/store";
-import SearchBar from "./components/SearchBar";
+import { View, Text, StyleSheet } from 'react-native';
+import { FilterModal, ItemList, LikeModal, ToolBar } from './components';
+import { useItems, useLikeModal, useFilterModal } from './hooks';
 
 const Home = () => {
-  const items = getItems();
+  const { items, filter, setFilter, search, setSearch } = useItems();
+  const {
+    likeModalVisible,
+    setLikeModalVisible,
+    showLikeModal,
+    closeLikeModal,
+  } = useLikeModal();
+  const {
+    filterModalVisible,
+    setFilterModalVisible,
+    showFilterModal,
+    closeFilterModal,
+  } = useFilterModal();
 
   return (
     <View style={s.container}>
       <Text style={s.header}>Popular</Text>
-      <SearchBar />
-      <ScrollView style={s.content}>
-        {items.map((item, i) => (
-          <Card key={item.title} data={item} index={i} />
-        ))}
-      </ScrollView>
+      <ToolBar
+        onLike={showLikeModal}
+        onFilter={showFilterModal}
+        search={search}
+        setSearch={setSearch}
+      />
+      <ItemList items={items} filter={filter} />
+      <LikeModal
+        visible={likeModalVisible}
+        setVisible={setLikeModalVisible}
+        close={closeLikeModal}
+      />
+      <FilterModal
+        filter={filter}
+        setFilter={setFilter}
+        visible={filterModalVisible}
+        setVisible={setFilterModalVisible}
+        close={closeFilterModal}
+      />
     </View>
   );
 };
@@ -27,8 +50,8 @@ const s = StyleSheet.create({
   },
   header: {
     fontSize: 26,
-    textAlign: "center",
-    color: "orange",
+    textAlign: 'center',
+    color: 'orange',
   },
   content: {
     paddingLeft: 10,
