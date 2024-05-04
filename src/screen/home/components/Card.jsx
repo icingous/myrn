@@ -19,7 +19,7 @@ const Card = ({ data, index }) => {
         </View>
       )}
       <View style={s.cardDetails}>
-        <View style={{ paddingLeft: 12 }}>
+        <View style={s.cardInfo}>
           <View style={s.cardHeader}>
             <Text style={s.cardTitle}>{title}</Text>
             <View style={s.cardIcon}>
@@ -73,7 +73,7 @@ const s = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 3,
     elevation: 4,
-    backgroundColor: "#222",
+    backgroundColor: colors.dark,
   },
   newBadge: {
     position: "absolute",
@@ -101,6 +101,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "stretch",
   },
+  cardInfo: { paddingLeft: 12, flex: 1 },
   cardTitle: {
     fontSize: 20,
     textTransform: "uppercase",
