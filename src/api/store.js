@@ -1,0 +1,51 @@
+export const getItems = () => [
+  {
+    title: "Tour 1",
+    image: "pizza1.avif",
+    price: 5000,
+    like: true,
+  },
+  {
+    title: "Tour 2",
+    isNew: false,
+    image: "pizza2.avif",
+    price: 4000,
+    oldPrice: 5500,
+    like: false,
+  },
+  {
+    title: "Tour 3",
+    isNew: true,
+    image: "pizza3.avif",
+    price: 3875,
+    like: true,
+  },
+  {
+    title: "Tour 4",
+    isNew: true,
+    image: "pizza4.avif",
+    price: 9500,
+    like: true,
+  },
+  {
+    title: "Tour 5",
+    isNew: false,
+    image: "pizza5.avif",
+    price: 7700,
+    oldPrice: 8500,
+  },
+  {
+    title: "Tour 6",
+    isNew: false,
+    image: "pizza6.avif",
+    price: 2100,
+    oldPrice: 3500,
+  },
+  {
+    title: "Tour 7",
+    isNew: false,
+    image: "pizza7.avif",
+    price: 4000,
+    oldPrice: 5500,
+  },
+];
