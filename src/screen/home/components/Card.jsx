@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import { LikeIcon, ShoppingCartIcon } from "../../../components/icons";
+import { colors } from "../../../constants/colors";
 
 const Card = ({ data, index }) => {
   const { title, like, oldPrice, price, isNew } = data;
@@ -72,7 +73,7 @@ const s = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 3,
     elevation: 4,
-    backgroundColor: "#222",
+    backgroundColor: colors.dark,
   },
   newBadge: {
     position: "absolute",
@@ -126,7 +127,7 @@ const s = StyleSheet.create({
     padding: 0,
   },
   buyPrompt: {
-    color: "lightgrey",
+    color: colors.light,
   },
   cardIcon: {
     width: 32,

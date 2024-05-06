@@ -1,11 +1,13 @@
 export const getItems = () => [
   {
+    id: 1,
     title: "Tour 1",
     image: "pizza1.avif",
     price: 5000,
     like: true,
   },
   {
+    id: 2,
     title: "Tour 2",
     isNew: false,
     image: "pizza2.avif",
@@ -14,6 +16,7 @@ export const getItems = () => [
     like: false,
   },
   {
+    id: 3,
     title: "Tour 3",
     isNew: true,
     image: "pizza3.avif",
@@ -21,6 +24,7 @@ export const getItems = () => [
     like: true,
   },
   {
+    id: 4,
     title: "Tour 4",
     isNew: true,
     image: "pizza4.avif",
@@ -28,6 +32,7 @@ export const getItems = () => [
     like: true,
   },
   {
+    id: 5,
     title: "Tour 5",
     isNew: false,
     image: "pizza5.avif",
@@ -35,6 +40,7 @@ export const getItems = () => [
     oldPrice: 8500,
   },
   {
+    id: 6,
     title: "Tour 6",
     isNew: false,
     image: "pizza6.avif",
@@ -42,10 +48,32 @@ export const getItems = () => [
     oldPrice: 3500,
   },
   {
+    id: 7,
     title: "Tour 7",
     isNew: false,
     image: "pizza7.avif",
     price: 4000,
     oldPrice: 5500,
+  },
+  {
+    id: 8,
+    title: "Tour 8",
+    isNew: true,
+    image: "pizza7.avif",
+    price: 11000,
+  },
+  {
+    id: 9,
+    title: "Tour 9",
+    isNew: false,
+    image: "pizza7.avif",
+    price: 9100,
+  },
+  {
+    id: 10,
+    title: "Tour 10",
+    isNew: true,
+    image: "pizza7.avif",
+    price: 7700,
   },
 ];
