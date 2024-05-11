@@ -1,16 +1,58 @@
-import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
-import Home from "./src/screen/home/Home";
+import "react-native-gesture-handler";
+import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import {
+  DrawerNavigator,
+  StackNavigator,
+  MoreTabIcon,
+  MoreTabLabel,
+  SettingsTabIcon,
+  SettingsTabLabel,
+  ToursTabIcon,
+  ToursTabLabel,
+} from "./src/components/navigation";
+import { AppHeader } from "./src/components";
+import { More } from "./src/screen";
 
 export default function App() {
+  const Tabs = createBottomTabNavigator();
+
   return (
     <SafeAreaView style={styles.app}>
       <StatusBar barStyle={"light-content"}></StatusBar>
-      <View style={styles.container}>
-        <Text style={styles.header}>Travel Store</Text>
-        <View style={styles.main}>
-          <Home />
-        </View>
-      </View>
+      <NavigationContainer>
+        <Tabs.Navigator>
+          <Tabs.Screen
+            name="Tours"
+            component={StackNavigator}
+            options={{
+              headerShown: false,
+              tabBarIcon: ToursTabIcon,
+              tabBarLabel: ToursTabLabel,
+            }}
+          />
+          <Tabs.Screen
+            name="Drawer"
+            component={DrawerNavigator}
+            options={{
+              headerShown: false,
+              tabBarIcon: SettingsTabIcon,
+              tabBarLabel: SettingsTabLabel,
+            }}
+          />
+          <Tabs.Screen
+            name="More"
+            component={More}
+            options={{
+              header: AppHeader,
+              tabBarIcon: MoreTabIcon,
+              tabBarLabel: MoreTabLabel,
+            }}
+          />
+        </Tabs.Navigator>
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
@@ -19,30 +61,4 @@ const styles = StyleSheet.create({
   app: {
     flex: 1,
   },
-  container: {
-    flex: 1,
-    padding: 12,
-    paddingTop: 16,
-    paddingBottom: 0,
-    marginTop: 0,
-    backgroundColor: "#222",
-  },
-  header: {
-    marginBottom: 4,
-    color: "bisque",
-    fontSize: 48,
-    textAlign: "center",
-  },
-  main: {
-    flex: 1,
-  },
 });
-
-//<ActivityIndicator size color
-//react-native-indicators
-
-//TouchableWithoutFeedback onPress onLongPress onPressIn onPressOut
-//TouchableOpacity style activeOpacity(0.2) 0-1
-//TouchableHighlight(0.85) underlayColor
-
-//Pressable android_ripple={borderless, radius, color, foreground}

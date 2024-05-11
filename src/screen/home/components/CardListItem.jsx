@@ -1,4 +1,7 @@
 import { Image, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { CustomPressable } from "../../../components";
 import { LikeIcon, ShoppingCartIcon } from "../../../components/icons";
 import { colors } from "../../../constants/colors";
 
@@ -6,13 +9,23 @@ const Card = ({ data, index }) => {
   const { title, like, oldPrice, price, isNew } = data;
   const likeProps = like ? s.cardIsLiked : s.cardIsDisliked;
   const priceStyle = oldPrice ? s.newPrice : s.price;
+  const cardRipple = {
+    color: colors.light,
+    borderless: false,
+    radius: 75,
+    foreground: true,
+  };
+
+  const imageUri = `https://picsum.photos/200.webp?random=${index}`;
+  const navigation = useNavigation();
+  const navigateToCardData = () =>
+    navigation.navigate("Tour", { ...data, image: imageUri });
 
   return (
     <View style={s.card}>
-      <Image
-        source={{ uri: `https://picsum.photos/200.webp?random=${index}` }}
-        style={s.cardImage}
-      />
+      <CustomPressable android_ripple={cardRipple} onPress={navigateToCardData}>
+        <Image source={{ uri: imageUri }} style={s.cardImage} />
+      </CustomPressable>
       {isNew && (
         <View style={s.newBadge}>
           <Text style={s.newBadgeText}>New</Text>

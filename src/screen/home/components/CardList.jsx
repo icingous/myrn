@@ -1,14 +1,15 @@
-import { FlatList } from 'react-native';
-import Card from './Card';
+import { FlatList } from "react-native";
+import Card from "./CardListItem";
 
-const ItemList = ({ items }) => {
+const CardList = ({ items }) => {
   return (
     <FlatList
       data={items}
       renderItem={({ item, index }) => <Card data={item} index={index} />}
       keyExtractor={(item) => item.id}
+      style={{ paddingHorizontal: 10 }}
     />
   );
 };
 
-export default ItemList;
+export default CardList;
