@@ -1,5 +1,5 @@
 import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
-import Home from "./src/screen/home/Home";
+import Carousel from "./src/screen/carousel/Carousel";
 
 export default function App() {
   return (
@@ -8,7 +8,8 @@ export default function App() {
       <View style={styles.container}>
         <Text style={styles.header}>Travel Store</Text>
         <View style={styles.main}>
-          <Home />
+          {/* <Home /> */}
+          <Carousel />
         </View>
       </View>
     </SafeAreaView>
@@ -37,12 +38,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-//<ActivityIndicator size color
-//react-native-indicators
-
-//TouchableWithoutFeedback onPress onLongPress onPressIn onPressOut
-//TouchableOpacity style activeOpacity(0.2) 0-1
-//TouchableHighlight(0.85) underlayColor
-
-//Pressable android_ripple={borderless, radius, color, foreground}
