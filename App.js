@@ -15,7 +15,7 @@ const scheme = Appearance.getColorScheme();
 const isSchemeLight = scheme === "light";
 
 export default function App() {
-  const barStyle = isSchemeLight ? "light-content" : "dark-content";
+  const barStyle = isSchemeLight ? "light-content" : "default";
 
   return (
     <SafeAreaView style={styles.app}>

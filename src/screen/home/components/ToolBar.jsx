@@ -11,7 +11,6 @@ import { colors } from "../../../constants/colors";
 import {
   iconButton,
   iconButtonRipple,
-  // toolIconProps,
   darkToolIconProps,
   lightToolIconProps,
 } from "../../../constants/styles";
