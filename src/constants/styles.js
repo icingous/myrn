@@ -16,3 +16,11 @@ export const toolIconProps = {
   fill: colors.dark,
   stroke: colors.secondary,
 };
+export const lightToolIconProps = {
+  fill: colors.extra,
+  stroke: colors.secondary,
+};
+export const darkToolIconProps = {
+  fill: colors.dark,
+  stroke: colors.secondary,
+};

@@ -1,16 +1,66 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import { LikeIcon, ShoppingCartIcon } from "../../../components/icons";
+import {
+  Alert,
+  Appearance,
+  Image,
+  Pressable,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import {
+  LikeIcon,
+  ShareIcon,
+  ShoppingCartIcon,
+} from "../../../components/icons";
 import { colors } from "../../../constants/colors";
+import { iconButtonRipple } from "../../../constants/styles";
+import { CustomPressable } from "../../../components";
 
-const Card = ({ data, index }) => {
-  const { title, like, oldPrice, price, isNew } = data;
+const scheme = Appearance.getColorScheme();
+const isSchemeLight = scheme === "light";
+
+const Card = ({ data }) => {
+  const { title, like, oldPrice, price, isNew, image } = data;
   const likeProps = like ? s.cardIsLiked : s.cardIsDisliked;
   const priceStyle = oldPrice ? s.newPrice : s.price;
+
+  const onPressShoppingCart = () =>
+    Alert.alert("Title", "Message", [
+      { text: "OK", onPress: () => console.log("Alert.OK") },
+      {
+        text: "Cancel",
+        onPress: () => console.log("Alert.Cancel"),
+        style: "cancel",
+      },
+    ]);
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          "React Native | A framework for building native apps using React",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
 
   return (
     <View style={s.card}>
       <Image
-        source={{ uri: `https://picsum.photos/200.webp?random=${index}` }}
+        source={{
+          uri: image,
+        }}
         style={s.cardImage}
       />
       {isNew && (
@@ -22,8 +72,18 @@ const Card = ({ data, index }) => {
         <View style={s.cardInfo}>
           <View style={s.cardHeader}>
             <Text style={s.cardTitle}>{title}</Text>
-            <View style={s.cardIcon}>
-              <LikeIcon {...likeProps} />
+            <View style={s.cardIcons}>
+              <CustomPressable
+                onPress={onShare}
+                android_ripple={iconButtonRipple}
+              >
+                <View style={s.shareIcon}>
+                  <ShareIcon {...s.share} />
+                </View>
+              </CustomPressable>
+              <View style={s.cardIcon}>
+                <LikeIcon {...likeProps} />
+              </View>
             </View>
           </View>
           <View style={s.cardPricing}>
@@ -43,9 +103,13 @@ const Card = ({ data, index }) => {
           </Text>
           <View style={s.cardBuy}>
             <Text style={s.buyPrompt}>Buy</Text>
-            <View style={s.cardIcon}>
+            <Pressable
+              style={s.cardIcon}
+              android_ripple={iconButtonRipple}
+              onPress={onPressShoppingCart}
+            >
               <ShoppingCartIcon stroke="grey" />
-            </View>
+            </Pressable>
           </View>
         </View>
       </View>
@@ -73,7 +137,7 @@ const s = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 3,
     elevation: 4,
-    backgroundColor: colors.dark,
+    backgroundColor: isSchemeLight ? colors.primary : colors.dark,
   },
   newBadge: {
     position: "absolute",
@@ -105,7 +169,7 @@ const s = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     textTransform: "uppercase",
-    color: "bisque",
+    color: isSchemeLight ? colors.dark : colors.primary,
   },
   cardHeader: {
     flexDirection: "row",
@@ -119,7 +183,11 @@ const s = StyleSheet.create({
     alignItems: "flex-end",
     gap: 10,
   },
-  cardDescription: { color: "lightgrey", fontSize: 12, flex: 1 },
+  cardDescription: {
+    color: isSchemeLight ? colors.secondary : colors.light,
+    fontSize: 12,
+    flex: 1,
+  },
   cardBuy: {
     flexDirection: "row",
     alignItems: "flex-end",
@@ -127,11 +195,20 @@ const s = StyleSheet.create({
     padding: 0,
   },
   buyPrompt: {
-    color: colors.light,
+    color: isSchemeLight ? colors.secondary : colors.light,
+  },
+  cardIcons: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
   },
   cardIcon: {
     width: 32,
     height: 32,
+  },
+  shareIcon: {
+    width: 26,
+    height: 26,
   },
   cardIsLiked: {
     stroke: "red",
@@ -141,9 +218,16 @@ const s = StyleSheet.create({
     stroke: "grey",
     fill: "transparent",
   },
-  price: { color: "bisque" },
-  newPrice: { fontWeight: "bold", color: "white" },
-  oldPrice: { textDecorationLine: "line-through", color: "grey" },
+  share: {
+    stroke: "grey",
+    fill: "transparent",
+  },
+  price: { color: isSchemeLight ? colors.dark : colors.primary },
+  newPrice: {
+    fontWeight: "bold",
+    color: isSchemeLight ? colors.dark : colors.extra,
+  },
+  oldPrice: { textDecorationLine: "line-through", color: colors.secondary },
 });
 
 export default Card;

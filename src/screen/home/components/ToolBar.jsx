@@ -1,21 +1,32 @@
-import { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import CustomPressable from '../../../components/CustomPressable';
-import { FilterIcon, FindIcon, LikeIcon } from '../../../components/icons';
-import { colors } from '../../../constants/colors';
+import { useState } from "react";
+import { Appearance, StyleSheet, TextInput, View } from "react-native";
+import CustomPressable from "../../../components/CustomPressable";
+import {
+  FilterIcon,
+  FindIcon,
+  LikeIcon,
+  SettingsIcon,
+} from "../../../components/icons";
+import { colors } from "../../../constants/colors";
 import {
   iconButton,
   iconButtonRipple,
-  toolIconProps,
-} from '../../../constants/styles';
+  // toolIconProps,
+  darkToolIconProps,
+  lightToolIconProps,
+} from "../../../constants/styles";
 
-const SearchBar = ({ onFilter, onLike, search, setSearch }) => {
+const scheme = Appearance.getColorScheme();
+const isSchemeLight = scheme === "light";
+const toolIconProps = isSchemeLight ? lightToolIconProps : darkToolIconProps;
+
+const SearchBar = ({ onFilter, onLike, onSettings, search, setSearch }) => {
   const [isSearching, setIsSearching] = useState(false);
 
   const toggleSearch = () => setIsSearching((state) => !state);
 
   return (
-    <View style={s.searchBar}>
+    <View style={s.container}>
       <View style={s.search}>
         <CustomPressable
           style={iconButton}
@@ -27,11 +38,11 @@ const SearchBar = ({ onFilter, onLike, search, setSearch }) => {
         {isSearching && (
           <TextInput
             style={s.input}
-            placeholder='Search...'
+            placeholder="Search..."
             placeholderTextColor={colors.secondary}
             selectionColor={colors.secondary}
             cursorColor={colors.primary}
-            autoComplete='off'
+            autoComplete="off"
             value={search}
             onChangeText={(text) => setSearch(text)}
           />
@@ -51,17 +62,24 @@ const SearchBar = ({ onFilter, onLike, search, setSearch }) => {
       >
         <LikeIcon {...toolIconProps} />
       </CustomPressable>
+      <CustomPressable
+        style={iconButton}
+        onPress={onSettings}
+        android_ripple={iconButtonRipple}
+      >
+        <SettingsIcon {...toolIconProps} />
+      </CustomPressable>
     </View>
   );
 };
 
 const s = StyleSheet.create({
-  searchBar: {
+  container: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
     gap: 12,
   },
   input: {
@@ -69,21 +87,21 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     flex: 1,
     borderWidth: 1,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderColor: colors.secondary,
     borderRadius: 8,
     fontSize: 14,
-    color: colors.light,
+    color: isSchemeLight ? colors.secondary : colors.light,
   },
   search: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     minHeight: 40,
   },
   searchButton: {
-    marginLeft: 'auto',
+    marginLeft: "auto",
   },
 });
 

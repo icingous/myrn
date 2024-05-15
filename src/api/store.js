@@ -1,4 +1,4 @@
-export const getItems = () => [
+const items = [
   {
     id: 1,
     title: "Tour 1",
@@ -77,3 +77,35 @@ export const getItems = () => [
     price: 7700,
   },
 ];
+
+export const getItems = async (page) => {
+  return new Promise((resolve) => {
+    const data = JSON.parse(JSON.stringify(items));
+
+    for (let j = 0; j < 5; ++j) {
+      const index = 10 * page + j;
+
+      data[j].title = `TOUR ${index}`;
+      data[j].id = index;
+      data[j].image = `https://picsum.photos/200.webp?random=${index}`;
+    }
+
+    setTimeout(() => resolve(data.slice(0, 5)), 3000);
+  });
+};
+
+export const getItemsAsync = (page = 0) => {
+  return new Promise((resolve) => {
+    const data = JSON.parse(JSON.stringify(items));
+
+    for (let j = 0; j < 10; ++j) {
+      const index = 10 * page + j;
+
+      data[j].title = `TOUR ${index}`;
+      data[j].id = index;
+      data[j].image = `https://picsum.photos/200.webp?random=${index}`;
+    }
+
+    setTimeout(() => resolve(data.reverse()), 3000);
+  });
+};

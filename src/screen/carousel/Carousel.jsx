@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
-import { useCarousel, useItems } from "./hooks";
+import { useCarousel, useCarouselItems } from "./hooks";
 import { Carousel } from "../../components";
 import { styles as s } from "./styles";
 
 const CarouselScreen = () => {
-  const items = useItems();
+  const items = useCarouselItems();
   const {
     currentIndex,
     height,

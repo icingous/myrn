@@ -1,15 +1,38 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { FilterModal, ItemList, LikeModal, ToolBar } from './components';
-import { useItems, useLikeModal, useFilterModal } from './hooks';
+import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
+import {
+  FilterModal,
+  ItemList,
+  LikeModal,
+  SettingsModal,
+  ToolBar,
+} from "./components";
+import {
+  useItems,
+  useLikeModal,
+  useFilterModal,
+  useSettingsModal,
+} from "./hooks";
+import { colors } from "../../constants/colors";
 
 const Home = () => {
-  const { items, filter, setFilter, search, setSearch } = useItems();
+  const {
+    items,
+    filter,
+    setFilter,
+    search,
+    setSearch,
+    onEndReached,
+    refreshing,
+    onRefresh,
+  } = useItems();
+
   const {
     likeModalVisible,
     setLikeModalVisible,
     showLikeModal,
     closeLikeModal,
   } = useLikeModal();
+
   const {
     filterModalVisible,
     setFilterModalVisible,
@@ -17,16 +40,49 @@ const Home = () => {
     closeFilterModal,
   } = useFilterModal();
 
+  const {
+    settingsModalVisible,
+    setSettingsModalVisible,
+    showSettingsModal,
+    closeSettingsModal,
+  } = useSettingsModal();
+
   return (
     <View style={s.container}>
       <Text style={s.header}>Popular</Text>
       <ToolBar
         onLike={showLikeModal}
         onFilter={showFilterModal}
+        onSettings={showSettingsModal}
         search={search}
         setSearch={setSearch}
       />
-      <ItemList items={items} filter={filter} />
+      {items?.length ? (
+        <View
+          style={{
+            flexGrow: 1,
+            flexShrink: 1,
+          }}
+        >
+          <ItemList
+            items={items}
+            filter={filter}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            onEndReached={onEndReached}
+          />
+        </View>
+      ) : (
+        <View
+          style={{
+            flexBasis: "80%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator color={colors.warning} size={40} />
+        </View>
+      )}
       <LikeModal
         visible={likeModalVisible}
         setVisible={setLikeModalVisible}
@@ -39,23 +95,23 @@ const Home = () => {
         setVisible={setFilterModalVisible}
         close={closeFilterModal}
       />
+      <SettingsModal
+        visible={settingsModalVisible}
+        setVisible={setSettingsModalVisible}
+        close={closeSettingsModal}
+      />
     </View>
   );
 };
 
 const s = StyleSheet.create({
   container: {
-    gap: 16,
-    paddingBottom: 50,
+    flex: 1,
   },
   header: {
     fontSize: 26,
-    textAlign: 'center',
-    color: 'orange',
-  },
-  content: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    textAlign: "center",
+    color: "orange",
   },
 });
 
