@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getPageItems, getPageItemsReversed } from "../../../api/store";
 
 const useItems = () => {
@@ -22,39 +22,41 @@ const useItems = () => {
     });
   }, []);
 
-  const filterItems = () =>
-    setItems(
-      storedItems.filter(
-        ({ title, isNew }) =>
-          (search ? title.includes(search) : true) &&
-          (newOnly === true ? Boolean(isNew) : true)
-      )
-    );
+  const filterItems = useCallback(
+    () =>
+      setItems(
+        storedItems.filter(
+          ({ title, isNew }) =>
+            (search ? title.includes(search) : true) &&
+            (newOnly === true ? Boolean(isNew) : true)
+        )
+      ),
+    [search, newOnly]
+  );
 
-  const onEndReached = async () => {
+  const onEndReached = useCallback(() => {
     if (newOnly || search) return;
 
     setRefreshing(true);
 
-    const data = await getPageItems(pageCount, 800);
+    getPageItems(pageCount, 800)
+      .then((data) => {
+        setPageCount((state) => state + 1);
+        setStoredItems((state) => [...state, ...data]);
+      })
+      .finally(() => setRefreshing(false));
+  }, [newOnly, search]);
 
-    setRefreshing(false);
-
-    setPageCount((state) => state + 1);
-    setStoredItems((state) => [...state, ...data]);
-  };
-
-  const onRefresh = async () => {
+  const onRefresh = useCallback(() => {
     if (newOnly || search) return;
 
     setPageCount((state) => state + 1);
     setRefreshing(true);
 
-    const data = await getPageItemsReversed(pageCount, 800);
-
-    setRefreshing(false);
-    setStoredItems((state) => [...data, ...state]);
-  };
+    getPageItemsReversed(pageCount, 800)
+      .then((data) => setStoredItems((state) => [...data, ...state]))
+      .finally(() => setRefreshing(false));
+  }, [newOnly, search]);
 
   return {
     items,
