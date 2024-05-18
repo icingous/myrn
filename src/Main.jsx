@@ -21,7 +21,6 @@ import { Carousel, Settings } from "./screen";
 
 const Main = () => {
   const { isSchemeLight } = useContext(ColorSchemeContext) || {};
-  const barStyle = isSchemeLight ? "light-content" : "dark-content";
   const Tabs = createBottomTabNavigator();
   const AppColoredHeader = (props) => (
     <AppHeader {...props} isSchemeLight={isSchemeLight} />
@@ -29,7 +28,7 @@ const Main = () => {
 
   return (
     <SafeAreaView style={styles.app}>
-      <StatusBar barStyle={barStyle}></StatusBar>
+      <StatusBar barStyle="default"></StatusBar>
       <NavigationContainer>
         <Tabs.Navigator>
           <Tabs.Screen
