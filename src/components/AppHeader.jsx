@@ -4,11 +4,18 @@ import RouteTitle from "./RouteTitle";
 import { colors } from "../constants/colors";
 
 const AppHeader = (props) => {
-  const { navigation, route, back } = props;
+  const { navigation, route, back, isSchemeLight } = props;
 
   return (
-    <View>
-      <Text style={styles.header}>Travel Store</Text>
+    <View style={isSchemeLight ? styles.headerLight : styles.headerDark}>
+      <Text
+        style={[
+          styles.headerText,
+          isSchemeLight ? styles.headerTextLight : styles.headerTextDark,
+        ]}
+      >
+        Travel Store
+      </Text>
       <View style={styles.navHeader}>
         {back && <BackButton onPress={() => navigation.goBack()} />}
         <RouteTitle route={route} />
@@ -18,11 +25,15 @@ const AppHeader = (props) => {
 };
 
 const styles = StyleSheet.create({
-  header: {
+  headerText: {
     paddingTop: 8,
     fontSize: 48,
     textAlign: "center",
-    backgroundColor: colors.dark,
+  },
+  headerTextLight: {
+    color: colors.dark,
+  },
+  headerTextDark: {
     color: colors.primary,
   },
   navHeader: {
@@ -30,6 +41,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  headerLight: {
+    backgroundColor: colors.extra,
+  },
+  headerDark: {
     backgroundColor: colors.dark,
   },
 });

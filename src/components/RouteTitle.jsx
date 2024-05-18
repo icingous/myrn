@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/colors";
+import ColorSchemeContext from "../store/color-theme-context/colorThemeContext";
 
 const getScreenTitle = (route) => {
   const { name, params } = route;
@@ -8,6 +10,8 @@ const getScreenTitle = (route) => {
   switch (name) {
     case "Home":
       return "Popular";
+    case "Best":
+      return "Top Rated Tours";
     default:
       return name;
   }
@@ -15,10 +19,18 @@ const getScreenTitle = (route) => {
 
 const RouteTitle = ({ route }) => {
   const { params } = route;
+  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
 
   return (
     <View styles={styles.screenTitleContainer}>
-      <Text style={styles.screenTitle}>{getScreenTitle(route)}</Text>
+      <Text
+        style={[
+          styles.screenTitle,
+          isSchemeLight ? styles.screenTitleLight : styles.screenTitleDark,
+        ]}
+      >
+        {getScreenTitle(route)}
+      </Text>
       {params?.isNew && (
         <View style={styles.newBadge}>
           <Text style={styles.newBadgeText}>New</Text>
@@ -37,6 +49,11 @@ const styles = StyleSheet.create({
     fontSize: 26,
     textAlign: "center",
     color: colors.warning,
+  },
+  screenTitleLight: {
+    backgroundColor: colors.extra,
+  },
+  screenTitleDark: {
     backgroundColor: colors.dark,
   },
   newBadge: {

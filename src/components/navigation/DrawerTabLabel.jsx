@@ -1,10 +1,10 @@
 import { Text } from "react-native";
 import { colors } from "../../constants/colors";
 
-const SettingsTabLabel = ({ focused }) => (
+const DrawerTabLabel = ({ focused }) => (
   <Text style={{ color: focused ? colors.dark : colors.secondary }}>
-    Settings
+    Drawer
   </Text>
 );
 
-export default SettingsTabLabel;
+export default DrawerTabLabel;

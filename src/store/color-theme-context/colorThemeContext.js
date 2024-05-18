@@ -1,16 +1,30 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { Appearance } from "react-native";
 
+const colorScheme = Appearance.getColorScheme();
+
 const initialValue = {
-  colorScheme: Appearance.getColorScheme(),
-  setColorScheme: Appearance.setColorScheme,
+  isSchemeLight: colorScheme === "light",
+  toggleScheme: () => {},
 };
+
 const ColorSchemeContext = createContext(initialValue);
 
-export const ColorSchemeContextProvider = ({ children }) => (
-  <ColorSchemeContext.Provider value={initialValue}>
-    {children}
-  </ColorSchemeContext.Provider>
-);
+export const ColorSchemeContextProvider = ({ children }) => {
+  const [isSchemeLight, setIsSchemeLight] = useState(
+    initialValue.isSchemeLight
+  );
+
+  return (
+    <ColorSchemeContext.Provider
+      value={{
+        isSchemeLight,
+        toggleScheme: () => setIsSchemeLight((state) => !state),
+      }}
+    >
+      {children}
+    </ColorSchemeContext.Provider>
+  );
+};
 
 export default ColorSchemeContext;

@@ -1,11 +1,17 @@
+import { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Cart, Home, Tour } from "../../screen";
 import { AppHeader } from "..";
+import ColorSchemeContext from "../../store/color-theme-context/colorThemeContext";
 
 const StackNavigator = () => {
+  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const AppColoredHeader = (props) => (
+    <AppHeader {...props} isSchemeLight={isSchemeLight} />
+  );
   const Stack = createNativeStackNavigator();
   const stackScreenOptions = {
-    header: AppHeader,
+    header: AppColoredHeader,
     headerMode: "float",
   };
 

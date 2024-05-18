@@ -1,14 +1,13 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import { LikeIcon } from "../../components/icons";
+import { Image, Text, View } from "react-native";
+import { LikeIcon, ShareIcon } from "../../components/icons";
 import withScreenContainer from "../../components/hoc/withScreenContainer";
-import { colors } from "../../constants/colors";
 import { CustomPressable } from "../../components";
 import { iconButtonRipple } from "../../constants/styles";
+import useTour from "./useTour";
 
 const Tour = ({ navigation, route }) => {
-  const { image, oldPrice, price, like } = route.params;
-  const likeProps = like ? s.cardIsLiked : s.cardIsDisliked;
-  const priceStyle = oldPrice ? s.newPrice : s.price;
+  const { s, image, price, oldPrice, onShare, likeProps, priceStyle } =
+    useTour(route);
 
   return (
     <View style={s.container}>
@@ -23,8 +22,18 @@ const Tour = ({ navigation, route }) => {
               <Text style={s.oldPrice}>{`old price: $${oldPrice}`}</Text>
             )}
           </View>
-          <View style={s.cardIcon}>
-            <LikeIcon {...likeProps} />
+          <View style={s.icons}>
+            <CustomPressable
+              onPress={onShare}
+              android_ripple={iconButtonRipple}
+            >
+              <View style={s.shareIcon}>
+                <ShareIcon {...s.shareIconProps} />
+              </View>
+            </CustomPressable>
+            <View style={s.cardIcon}>
+              <LikeIcon {...likeProps} />
+            </View>
           </View>
         </View>
         <View style={s.cardTotal}>
@@ -57,66 +66,5 @@ const Tour = ({ navigation, route }) => {
     </View>
   );
 };
-
-const s = StyleSheet.create({
-  container: {
-    position: "relative",
-    flex: 1,
-    gap: 20,
-  },
-  image: {
-    width: "100%",
-    height: "50%",
-  },
-  cardDetails: {
-    flex: 1,
-    gap: 15,
-    alignItems: "stretch",
-  },
-  cardInfo: {
-    paddingLeft: 12,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  cardPricing: {
-    fontSize: 20,
-  },
-  cardTotal: {
-    gap: 10,
-  },
-  cardDescription: { color: "lightgrey", fontSize: 16 },
-  cardBuy: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 5,
-    padding: 0,
-  },
-  buyPrompt: {
-    fontSize: 24,
-    color: colors.extra,
-    textTransform: "uppercase",
-  },
-  cardIcon: {
-    width: 32,
-    height: 32,
-  },
-  cardIsLiked: {
-    stroke: "red",
-    fill: "red",
-  },
-  cardIsDisliked: {
-    stroke: "grey",
-    fill: "transparent",
-  },
-  price: { fontSize: 20, color: "bisque" },
-  newPrice: { fontSize: 20, fontWeight: "bold", color: "white" },
-  oldPrice: { fontSize: 20, textDecorationLine: "line-through", color: "grey" },
-});
 
 export default withScreenContainer(Tour);
