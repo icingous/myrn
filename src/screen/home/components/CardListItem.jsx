@@ -1,18 +1,35 @@
+import { useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { CustomPressable } from "../../../components";
 import { LikeIcon, ShoppingCartIcon } from "../../../components/icons";
 import { colors } from "../../../constants/colors";
+import ColorSchemeContext from "../../../store/color-theme-context/colorThemeContext";
 
-const Card = ({ data, index }) => {
+const Card = ({ data }) => {
+  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
   const { title, like, oldPrice, price, isNew } = data;
   const likeProps = like ? s.cardIsLiked : s.cardIsDisliked;
-  const priceStyle = oldPrice ? s.newPrice : s.price;
+  const priceStyle = oldPrice
+    ? [s.newPrice, isSchemeLight ? s.newPriceLight : s.newPriceDark]
+    : isSchemeLight
+    ? s.priceLight
+    : s.priceDark;
+  const cardRipple = {
+    color: colors.light,
+    borderless: false,
+    radius: 75,
+    foreground: true,
+  };
+  const navigation = useNavigation();
+  const navigateToCardData = () => navigation.navigate("Tour", data);
 
   return (
-    <View style={s.card}>
-      <Image
-        source={{ uri: `https://picsum.photos/200.webp?random=${index}` }}
-        style={s.cardImage}
-      />
+    <View style={[s.card, isSchemeLight ? s.cardLight : s.cardDark]}>
+      <CustomPressable android_ripple={cardRipple} onPress={navigateToCardData}>
+        <Image source={{ uri: data.image }} style={s.cardImage} />
+      </CustomPressable>
       {isNew && (
         <View style={s.newBadge}>
           <Text style={s.newBadgeText}>New</Text>
@@ -21,7 +38,14 @@ const Card = ({ data, index }) => {
       <View style={s.cardDetails}>
         <View style={s.cardInfo}>
           <View style={s.cardHeader}>
-            <Text style={s.cardTitle}>{title}</Text>
+            <Text
+              style={[
+                s.cardTitle,
+                isSchemeLight ? s.cardTitleLight : s.cardTitleDark,
+              ]}
+            >
+              {title}
+            </Text>
             <View style={s.cardIcon}>
               <LikeIcon {...likeProps} />
             </View>
@@ -36,13 +60,21 @@ const Card = ({ data, index }) => {
           </View>
         </View>
         <View style={s.cardTotal}>
-          <Text numberOfLines={1} style={s.cardDescription}>
+          <Text
+            numberOfLines={1}
+            style={[
+              s.cardDescription,
+              isSchemeLight ? s.cardDescriptionLight : s.cardDescriptionDark,
+            ]}
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
             harum earum ut possimus voluptatem impedit quis vel beatae quod
             laborum.
           </Text>
           <View style={s.cardBuy}>
-            <Text style={s.buyPrompt}>Buy</Text>
+            <Text style={isSchemeLight ? s.buyPromptLight : s.buyPromptDark}>
+              Buy
+            </Text>
             <View style={s.cardIcon}>
               <ShoppingCartIcon stroke="grey" />
             </View>
@@ -63,17 +95,23 @@ const s = StyleSheet.create({
     marginBottom: 16,
     padding: 10,
     borderWidth: 1,
-    borderColor: "grey",
+    borderColor: colors.secondary,
     borderRadius: 10,
-    shadowColor: "#FFF",
     shadowOffset: {
       width: 6,
       height: 6,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 3,
+    shadowOpacity: 0.7,
+    shadowRadius: 10,
     elevation: 4,
+  },
+  cardLight: {
+    backgroundColor: colors.primary,
+    shadowColor: colors.dark,
+  },
+  cardDark: {
     backgroundColor: colors.dark,
+    shadowColor: colors.extra,
   },
   newBadge: {
     position: "absolute",
@@ -84,11 +122,11 @@ const s = StyleSheet.create({
     paddingLeft: 6,
     paddingRight: 6,
     borderRadius: 14,
-    backgroundColor: "orange",
+    backgroundColor: colors.warning,
   },
   newBadgeText: {
     fontSize: 10,
-    color: "white",
+    color: colors.extra,
   },
   cardImage: {
     height: 100,
@@ -105,7 +143,12 @@ const s = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     textTransform: "uppercase",
-    color: "bisque",
+  },
+  cardTitleLight: {
+    color: colors.dark,
+  },
+  cardTitleDark: {
+    color: colors.primary,
   },
   cardHeader: {
     flexDirection: "row",
@@ -119,14 +162,19 @@ const s = StyleSheet.create({
     alignItems: "flex-end",
     gap: 10,
   },
-  cardDescription: { color: "lightgrey", fontSize: 12, flex: 1 },
+  cardDescription: { fontSize: 12, flex: 1 },
+  cardDescriptionLight: { color: colors.secondary },
+  cardDescriptionDark: { color: colors.light },
   cardBuy: {
     flexDirection: "row",
     alignItems: "flex-end",
     gap: 5,
     padding: 0,
   },
-  buyPrompt: {
+  buyPromptLight: {
+    color: colors.secondary,
+  },
+  buyPromptDark: {
     color: colors.light,
   },
   cardIcon: {
@@ -138,12 +186,19 @@ const s = StyleSheet.create({
     fill: "red",
   },
   cardIsDisliked: {
-    stroke: "grey",
+    stroke: colors.secondary,
     fill: "transparent",
   },
-  price: { color: "bisque" },
-  newPrice: { fontWeight: "bold", color: "white" },
-  oldPrice: { textDecorationLine: "line-through", color: "grey" },
+  priceLight: { color: colors.dark },
+  priceDark: { color: colors.primary },
+  newPrice: { fontWeight: "bold" },
+  newPriceLight: {
+    color: colors.dark,
+  },
+  newPriceDark: {
+    color: colors.extra,
+  },
+  oldPrice: { textDecorationLine: "line-through", color: colors.secondary },
 });
 
 export default Card;

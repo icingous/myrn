@@ -1,21 +1,24 @@
-import { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import CustomPressable from '../../../components/CustomPressable';
-import { FilterIcon, FindIcon, LikeIcon } from '../../../components/icons';
-import { colors } from '../../../constants/colors';
+import { useContext, useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
+import CustomPressable from "../../../components/CustomPressable";
+import { FilterIcon, FindIcon, LikeIcon } from "../../../components/icons";
+import { colors } from "../../../constants/colors";
 import {
   iconButton,
   iconButtonRipple,
-  toolIconProps,
-} from '../../../constants/styles';
+  lightToolIconProps,
+  darkToolIconProps,
+} from "../../../constants/styles";
+import ColorSchemeContext from "../../../store/color-theme-context/colorThemeContext";
 
-const SearchBar = ({ onFilter, onLike, search, setSearch }) => {
+const ToolBar = ({ onFilter, onLike, search, setSearch }) => {
   const [isSearching, setIsSearching] = useState(false);
-
+  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const toolIconProps = isSchemeLight ? lightToolIconProps : darkToolIconProps;
   const toggleSearch = () => setIsSearching((state) => !state);
 
   return (
-    <View style={s.searchBar}>
+    <View style={s.toolBar}>
       <View style={s.search}>
         <CustomPressable
           style={iconButton}
@@ -26,12 +29,12 @@ const SearchBar = ({ onFilter, onLike, search, setSearch }) => {
         </CustomPressable>
         {isSearching && (
           <TextInput
-            style={s.input}
-            placeholder='Search...'
+            style={[s.input, isSchemeLight ? s.inputLight : s.inputDark]}
+            placeholder="Search..."
             placeholderTextColor={colors.secondary}
-            selectionColor={colors.secondary}
-            cursorColor={colors.primary}
-            autoComplete='off'
+            selectionColor={isSchemeLight ? colors.light : colors.secondary}
+            cursorColor={isSchemeLight ? colors.warning : colors.primary}
+            autoComplete="off"
             value={search}
             onChangeText={(text) => setSearch(text)}
           />
@@ -56,12 +59,12 @@ const SearchBar = ({ onFilter, onLike, search, setSearch }) => {
 };
 
 const s = StyleSheet.create({
-  searchBar: {
+  toolBar: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
     gap: 12,
   },
   input: {
@@ -69,22 +72,27 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     flex: 1,
     borderWidth: 1,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderColor: colors.secondary,
     borderRadius: 8,
     fontSize: 14,
+  },
+  inputLight: {
+    color: colors.dark,
+  },
+  inputDark: {
     color: colors.light,
   },
   search: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     minHeight: 40,
   },
   searchButton: {
-    marginLeft: 'auto',
+    marginLeft: "auto",
   },
 });
 
-export default SearchBar;
+export default ToolBar;

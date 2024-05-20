@@ -5,13 +5,10 @@ export const styles = StyleSheet.create({
   carousel: {
     flex: 1,
     position: "relative",
-    marginHorizontal: -12,
   },
   carouselList: {
     flex: 1,
     flexDirection: "row",
-    borderColor: "lime",
-    borderWidth: 1,
   },
   imageContainer: {
     flex: 1,
