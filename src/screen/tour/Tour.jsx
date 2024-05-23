@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Image, Text, View } from "react-native";
 import { LikeIcon, ShareIcon } from "../../components/icons";
 import withScreenContainer from "../../components/hoc/withScreenContainer";
@@ -8,6 +9,11 @@ import useTour from "./useTour";
 const Tour = ({ navigation, route }) => {
   const { s, image, price, oldPrice, onShare, likeProps, priceStyle } =
     useTour(route);
+
+  const navigateToCart = useCallback(
+    () => navigation.navigate("Cart"),
+    [navigation]
+  );
 
   return (
     <View style={s.container}>
@@ -56,7 +62,7 @@ const Tour = ({ navigation, route }) => {
                 radius: 50,
                 borderless: false,
               }}
-              onPress={() => navigation.navigate("Cart")}
+              onPress={navigateToCart}
             >
               <Text style={s.buyPrompt}>Buy</Text>
             </CustomPressable>

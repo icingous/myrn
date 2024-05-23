@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import { Appearance } from "react-native";
 
 const colorScheme = Appearance.getColorScheme();
@@ -15,11 +15,16 @@ export const ColorSchemeContextProvider = ({ children }) => {
     initialValue.isSchemeLight
   );
 
+  const toggleScheme = useCallback(
+    () => setIsSchemeLight((state) => !state),
+    []
+  );
+
   return (
     <ColorSchemeContext.Provider
       value={{
         isSchemeLight,
-        toggleScheme: () => setIsSchemeLight((state) => !state),
+        toggleScheme,
       }}
     >
       {children}

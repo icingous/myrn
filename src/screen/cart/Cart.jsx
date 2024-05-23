@@ -11,9 +11,7 @@ const Cart = ({ navigation }) => {
         animationType="slide"
         transparent={true}
         visible={true}
-        onRequestClose={() => {
-          navigation.goBack();
-        }}
+        onRequestClose={goBack}
       >
         <View style={styles.centeredView}>
           <Text style={styles.header}>Shopping Cart</Text>
