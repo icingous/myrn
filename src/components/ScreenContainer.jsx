@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { colors } from "../constants/colors";
-import ColorSchemeContext from "../store/color-theme-context/colorThemeContext";
+import ColorSchemeContext from "../context/colorThemeContext";
 
 const ScreenContainer = ({ children }) => {
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const { isSchemeLight } = useContext(ColorSchemeContext);
 
   return (
     <View

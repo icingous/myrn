@@ -1,4 +1,5 @@
 import { Image, Text, View } from "react-native";
+import { observer } from "mobx-react-lite";
 import { LikeIcon, ShareIcon } from "../../components/icons";
 import withScreenContainer from "../../components/hoc/withScreenContainer";
 import { CustomPressable } from "../../components";
@@ -6,8 +7,16 @@ import { iconButtonRipple } from "../../constants/styles";
 import useTour from "./useTour";
 
 const Tour = ({ navigation, route }) => {
-  const { s, image, price, oldPrice, onShare, likeProps, priceStyle } =
-    useTour(route);
+  const {
+    s,
+    image,
+    price,
+    oldPrice,
+    onShare,
+    likeProps,
+    priceStyle,
+    addToCart,
+  } = useTour(route);
 
   return (
     <View style={s.container}>
@@ -56,7 +65,10 @@ const Tour = ({ navigation, route }) => {
                 radius: 50,
                 borderless: false,
               }}
-              onPress={() => navigation.navigate("Cart")}
+              onPress={() => {
+                addToCart();
+                navigation.getParent().navigate("Cart");
+              }}
             >
               <Text style={s.buyPrompt}>Buy</Text>
             </CustomPressable>
@@ -67,4 +79,4 @@ const Tour = ({ navigation, route }) => {
   );
 };
 
-export default withScreenContainer(Tour);
+export default withScreenContainer(observer(Tour));

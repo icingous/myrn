@@ -1,77 +1,77 @@
-import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { StyleSheet, Text, Pressable, View } from "react-native";
+import { observer } from "mobx-react-lite";
+import EmptyCart from "./components/EmptyCart";
+import store from "../../store";
 import { colors } from "../../constants/colors";
+import CartItemList from "./components/CartItemList";
 
 const Cart = ({ navigation }) => {
+  const { items, count, amount } = store.cart;
+
+  if (count === 0) {
+    return (
+      <EmptyCart
+        toTours={() => navigation.navigate("Tours", { replace: true })}
+      />
+    );
+  }
+
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={true}
-        onRequestClose={() => {
-          navigation.goBack();
-        }}
-      >
-        <View style={styles.centeredView}>
-          <Text style={styles.header}>Shopping Cart</Text>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello Traveler!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={styles.textStyle}>Hide Cart</Text>
-            </Pressable>
-          </View>
+    <View style={styles.cart}>
+      <CartItemList items={items} />
+      <View style={styles.total}>
+        <Text style={styles.totalText}>Total:</Text>
+        <View style={styles.totalDetails}>
+          <Text style={styles.totalText}>{count}</Text>
+          <Text style={styles.totalText}>for</Text>
+          <Text style={styles.totalText}>{`$${amount}`}</Text>
         </View>
-      </Modal>
+      </View>
+      <Pressable
+        style={[styles.button, styles.buttonBuy]}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.buttonText}>Order</Text>
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  cart: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
+    padding: 12,
+    paddingBottom: 24,
+    gap: 12,
+    backgroundColor: colors.extra,
   },
-  header: {
-    fontSize: 32,
-    color: colors.dark,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+  total: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    gap: 8,
+  },
+  totalText: {
+    fontSize: 24,
+  },
+  totalDetails: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
   button: {
-    borderRadius: 20,
     padding: 10,
     elevation: 2,
   },
-  buttonClose: {
-    backgroundColor: "#2196F3",
+  buttonBuy: {
+    backgroundColor: "steelblue",
   },
-  textStyle: {
+  buttonText: {
     color: "white",
-    fontWeight: "bold",
+    fontSize: 18,
     textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+    textTransform: "uppercase",
   },
 });
 
-export default Cart;
+export default observer(Cart);

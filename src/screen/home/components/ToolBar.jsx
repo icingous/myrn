@@ -9,11 +9,11 @@ import {
   lightToolIconProps,
   darkToolIconProps,
 } from "../../../constants/styles";
-import ColorSchemeContext from "../../../store/color-theme-context/colorThemeContext";
+import ColorSchemeContext from "../../../context/colorThemeContext";
 
 const ToolBar = ({ onFilter, onLike, search, setSearch }) => {
   const [isSearching, setIsSearching] = useState(false);
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const { isSchemeLight } = useContext(ColorSchemeContext);
   const toolIconProps = isSchemeLight ? lightToolIconProps : darkToolIconProps;
   const toggleSearch = () => setIsSearching((state) => !state);
 
@@ -61,7 +61,7 @@ const ToolBar = ({ onFilter, onLike, search, setSearch }) => {
 const s = StyleSheet.create({
   toolBar: {
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingBottom: 12,
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",

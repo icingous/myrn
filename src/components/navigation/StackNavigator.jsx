@@ -2,10 +2,10 @@ import { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Cart, Home, Tour } from "../../screen";
 import { AppHeader } from "..";
-import ColorSchemeContext from "../../store/color-theme-context/colorThemeContext";
+import ColorSchemeContext from "../../context/colorThemeContext";
 
 const StackNavigator = () => {
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const { isSchemeLight } = useContext(ColorSchemeContext);
   const AppColoredHeader = (props) => (
     <AppHeader {...props} isSchemeLight={isSchemeLight} />
   );
@@ -22,7 +22,7 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Cart"
         component={Cart}
-        options={{ headerShown: false }}
+        // options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

@@ -1,5 +1,7 @@
 export { default as CarouselTabIcon } from "./CarouselTabIcon";
 export { default as CarouselTabLabel } from "./CarouselTabLabel";
+export { default as CartTabIcon } from "./CartTabIcon";
+export { default as CartTabLabel } from "./CartTabLabel";
 export { default as SettingsTabIcon } from "./SettingsTabIcon";
 export { default as SettingsTabLabel } from "./SettingsTabLabel";
 export { default as DrawerTabIcon } from "./DrawerTabIcon";

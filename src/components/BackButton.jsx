@@ -5,10 +5,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import CustomPressable from "./CustomPressable";
 import { colors } from "../constants/colors";
 import { iconButton, iconButtonRipple } from "../constants/styles";
-import ColorSchemeContext from "../store/color-theme-context/colorThemeContext";
+import ColorSchemeContext from "../context/colorThemeContext";
 
 const BackButton = ({ onPress }) => {
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const { isSchemeLight } = useContext(ColorSchemeContext);
 
   return (
     <View style={styles.back}>

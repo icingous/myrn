@@ -17,7 +17,7 @@ const CarouselList = ({
         renderItem={({ item }) => (
           <View style={s.imageContainer}>
             <Image
-              source={item.image}
+              source={{ uri: `${item.image}` }}
               width={width}
               height={height}
               style={s.image}

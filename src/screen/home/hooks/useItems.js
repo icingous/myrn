@@ -1,26 +1,25 @@
-import { useCallback, useEffect, useState } from "react";
-import { getPageItems, getPageItemsReversed } from "../../../api/store";
+import { useCallback, useContext, useEffect, useState } from "react";
+import StoreContext from "../../../context/storeContext";
 
 const useItems = () => {
-  const [pageCount, setPageCount] = useState(1);
+  const {
+    tours: {
+      tours: storedItems,
+      isLoading,
+      pageCount,
+      getPageItems,
+      getPageItemsReversed,
+    },
+  } = useContext(StoreContext);
+
   const [filter, setFilter] = useState({});
   const [search, setSearch] = useState("");
-  const [storedItems, setStoredItems] = useState([]);
   const [items, setItems] = useState(storedItems);
-  const [refreshing, setRefreshing] = useState(false);
   const { newOnly } = filter;
 
   useEffect(() => {
     filterItems();
   }, [filter, search, storedItems]);
-
-  useEffect(() => {
-    setRefreshing(true);
-    getPageItemsReversed(0, 800).then((data) => {
-      setRefreshing(false);
-      setStoredItems(data);
-    });
-  }, []);
 
   const filterItems = useCallback(
     () =>
@@ -35,28 +34,16 @@ const useItems = () => {
   );
 
   const onEndReached = useCallback(() => {
-    if (newOnly || search) return;
+    if (newOnly || search || pageCount > 5) return;
 
-    setRefreshing(true);
-
-    getPageItems(pageCount, 800)
-      .then((data) => {
-        setPageCount((state) => state + 1);
-        setStoredItems((state) => [...state, ...data]);
-      })
-      .finally(() => setRefreshing(false));
-  }, [newOnly, search]);
+    getPageItems(800);
+  }, [newOnly, search, pageCount]);
 
   const onRefresh = useCallback(() => {
     if (newOnly || search) return;
 
-    setPageCount((state) => state + 1);
-    setRefreshing(true);
-
-    getPageItemsReversed(pageCount, 800)
-      .then((data) => setStoredItems((state) => [...data, ...state]))
-      .finally(() => setRefreshing(false));
-  }, [newOnly, search]);
+    getPageItemsReversed(800);
+  }, [newOnly, search, storedItems]);
 
   return {
     items,
@@ -65,7 +52,7 @@ const useItems = () => {
     search,
     setSearch,
     onEndReached,
-    refreshing,
+    refreshing: isLoading,
     onRefresh,
   };
 };

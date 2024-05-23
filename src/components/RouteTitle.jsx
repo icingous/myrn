@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/colors";
-import ColorSchemeContext from "../store/color-theme-context/colorThemeContext";
+import ColorSchemeContext from "../context/colorThemeContext";
 
 const getScreenTitle = (route) => {
   const { name, params } = route;
@@ -12,6 +12,8 @@ const getScreenTitle = (route) => {
       return "Popular";
     case "Best":
       return "Top Rated Tours";
+    case "Cart":
+      return "Shopping Cart";
     default:
       return name;
   }
@@ -19,7 +21,7 @@ const getScreenTitle = (route) => {
 
 const RouteTitle = ({ route }) => {
   const { params } = route;
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const { isSchemeLight } = useContext(ColorSchemeContext);
 
   return (
     <View styles={styles.screenTitleContainer}>

@@ -1,4 +1,5 @@
 import { View, StyleSheet } from "react-native";
+import { observer } from "mobx-react-lite";
 
 import { FilterModal, CardList, LikeModal, ToolBar } from "./components";
 import withScreenContainer from "../../components/hoc/withScreenContainer";
@@ -62,8 +63,8 @@ const Home = () => {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 0,
+    marginTop: -20,
   },
 });
 
-export default withScreenContainer(Home);
+export default withScreenContainer(observer(Home));

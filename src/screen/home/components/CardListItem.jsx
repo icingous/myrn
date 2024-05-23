@@ -1,14 +1,17 @@
 import { useContext } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { observer } from "mobx-react-lite";
 
+import store from "../../../store/cart/cart-store";
 import { CustomPressable } from "../../../components";
 import { LikeIcon, ShoppingCartIcon } from "../../../components/icons";
 import { colors } from "../../../constants/colors";
-import ColorSchemeContext from "../../../store/color-theme-context/colorThemeContext";
+import ColorSchemeContext from "../../../context/colorThemeContext";
+import { iconButton, iconButtonRipple } from "../../../constants/styles";
 
 const Card = ({ data }) => {
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const { isSchemeLight } = useContext(ColorSchemeContext);
   const { title, like, oldPrice, price, isNew } = data;
   const likeProps = like ? s.cardIsLiked : s.cardIsDisliked;
   const priceStyle = oldPrice
@@ -75,9 +78,15 @@ const Card = ({ data }) => {
             <Text style={isSchemeLight ? s.buyPromptLight : s.buyPromptDark}>
               Buy
             </Text>
-            <View style={s.cardIcon}>
-              <ShoppingCartIcon stroke="grey" />
-            </View>
+            <Pressable
+              style={iconButton}
+              android_ripple={iconButtonRipple}
+              onPress={() => store.addItem(data)}
+            >
+              <View style={s.cardIcon}>
+                <ShoppingCartIcon stroke="grey" />
+              </View>
+            </Pressable>
           </View>
         </View>
       </View>
@@ -201,4 +210,4 @@ const s = StyleSheet.create({
   oldPrice: { textDecorationLine: "line-through", color: colors.secondary },
 });
 
-export default Card;
+export default observer(Card);

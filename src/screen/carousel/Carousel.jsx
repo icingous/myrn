@@ -1,13 +1,17 @@
 import { useContext } from "react";
-import { View } from "react-native";
-import { useCarousel, useCarouselItems } from "./hooks";
+import { ActivityIndicator, View } from "react-native";
+import { observer } from "mobx-react-lite";
+import { useCarousel } from "./hooks";
 import { Carousel } from "../../components";
 import { styles as s } from "./styles";
-import ColorSchemeContext from "../../store/color-theme-context/colorThemeContext";
+import { ColorSchemeContext, StoreContext } from "../../context";
+import { colors } from "../../constants/colors";
 
 const CarouselScreen = () => {
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
-  const items = useCarouselItems();
+  const { isSchemeLight } = useContext(ColorSchemeContext);
+  const {
+    tours: { topFive },
+  } = useContext(StoreContext);
   const {
     currentIndex,
     height,
@@ -23,27 +27,32 @@ const CarouselScreen = () => {
     listRef,
   } = useCarousel();
 
+  const isLoading = topFive.length === 0;
+
   return (
     <View style={[s.content, isSchemeLight ? s.contentLight : s.contentDark]}>
-      <Carousel
-        {...{
-          items,
-          currentIndex,
-          height,
-          width,
-          noSwipeLeft,
-          noSwipeRight,
-          onScroll,
-          pauseCarousel,
-          resumeCarousel,
-          scrollToIndex,
-          scrollToNext,
-          scrollToPrev,
-          listRef,
-        }}
-      />
+      {isLoading && <ActivityIndicator color={colors.warning} size={32} />}
+      {!isLoading && (
+        <Carousel
+          {...{
+            items: topFive,
+            currentIndex,
+            height,
+            width,
+            noSwipeLeft,
+            noSwipeRight,
+            onScroll,
+            pauseCarousel,
+            resumeCarousel,
+            scrollToIndex,
+            scrollToNext,
+            scrollToPrev,
+            listRef,
+          }}
+        />
+      )}
     </View>
   );
 };
 
-export default CarouselScreen;
+export default observer(CarouselScreen);

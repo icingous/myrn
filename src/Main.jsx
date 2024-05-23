@@ -1,8 +1,10 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import ColorSchemeContext from "./store/color-theme-context/colorThemeContext";
+import { observer } from "mobx-react-lite";
+import ColorSchemeContext from "./context/colorThemeContext";
+import StoreContext from "./context/storeContext";
 
 import {
   DrawerNavigator,
@@ -15,16 +17,25 @@ import {
   DrawerTabLabel,
   ToursTabIcon,
   ToursTabLabel,
+  CartTabIcon,
+  CartTabLabel,
 } from "./components/navigation";
 import { AppHeader } from "./components";
-import { Carousel, Settings } from "./screen";
+import { Carousel, Settings, Cart } from "./screen";
 
 const Main = () => {
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const { isSchemeLight } = useContext(ColorSchemeContext);
+  const {
+    tours: { getItems },
+  } = useContext(StoreContext);
   const Tabs = createBottomTabNavigator();
   const AppColoredHeader = (props) => (
     <AppHeader {...props} isSchemeLight={isSchemeLight} />
   );
+
+  useEffect(() => {
+    getItems(800);
+  }, []);
 
   return (
     <SafeAreaView style={styles.app}>
@@ -59,6 +70,15 @@ const Main = () => {
             }}
           />
           <Tabs.Screen
+            name="Cart"
+            component={Cart}
+            options={{
+              header: AppColoredHeader,
+              tabBarIcon: (props) => <CartTabIcon {...props} />,
+              tabBarLabel: CartTabLabel,
+            }}
+          />
+          <Tabs.Screen
             name="Settings"
             component={Settings}
             options={{
@@ -79,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Main;
+export default observer(Main);

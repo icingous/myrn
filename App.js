@@ -1,11 +1,13 @@
 import "react-native-gesture-handler";
-import { ColorSchemeContextProvider } from "./src/store/color-theme-context/colorThemeContext";
+import { ColorSchemeContextProvider, StoreProvider } from "./src/context";
 import Main from "./src/Main";
 
 export default function App() {
   return (
     <ColorSchemeContextProvider>
-      <Main />
+      <StoreProvider>
+        <Main />
+      </StoreProvider>
     </ColorSchemeContextProvider>
   );
 }

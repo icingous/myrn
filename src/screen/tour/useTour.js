@@ -1,11 +1,16 @@
 import { useMemo, useContext } from "react";
 import { Share, StyleSheet } from "react-native";
-import ColorSchemeContext from "../../store/color-theme-context/colorThemeContext";
+import ColorSchemeContext from "../../context/colorThemeContext";
 import { colors } from "../../constants/colors";
+import { StoreContext } from "../../context";
 
 const useTour = (route) => {
-  const { image, oldPrice, price, like } = route.params;
-  const { isSchemeLight } = useContext(ColorSchemeContext) || {};
+  const tour = route.params;
+  const { image, oldPrice, price, like } = tour;
+  const { isSchemeLight } = useContext(ColorSchemeContext);
+  const {
+    cart: { addItem },
+  } = useContext(StoreContext);
 
   const s = useMemo(
     () =>
@@ -122,7 +127,18 @@ const useTour = (route) => {
     }
   };
 
-  return { s, image, price, oldPrice, onShare, likeProps, priceStyle };
+  const addToCart = () => addItem(tour);
+
+  return {
+    s,
+    image,
+    price,
+    oldPrice,
+    onShare,
+    likeProps,
+    priceStyle,
+    addToCart,
+  };
 };
 
 export default useTour;

@@ -7,7 +7,12 @@ const AppHeader = (props) => {
   const { navigation, route, back, isSchemeLight } = props;
 
   return (
-    <View style={isSchemeLight ? styles.headerLight : styles.headerDark}>
+    <View
+      style={[
+        styles.header,
+        isSchemeLight ? styles.headerLight : styles.headerDark,
+      ]}
+    >
       <Text
         style={[
           styles.headerText,
@@ -41,6 +46,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  header: {
+    paddingBottom: 16,
   },
   headerLight: {
     backgroundColor: colors.extra,
