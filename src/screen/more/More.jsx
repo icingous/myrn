@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { CustomPressable } from "../../components";
 import {
@@ -8,9 +9,9 @@ import {
 import { CloseIcon } from "../../components/icons";
 
 const More = ({ navigation }) => {
-  const close = () => {
+  const close = useCallback(() => {
     navigation.goBack();
-  };
+  }, [navigation]);
 
   return (
     <Modal visible={true} style={styles.modalView}>

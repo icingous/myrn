@@ -31,7 +31,7 @@ const useItems = () => {
             (newOnly === true ? Boolean(isNew) : true)
         )
       ),
-    [search, newOnly]
+    [search, newOnly, storedItems]
   );
 
   const onEndReached = useCallback(() => {

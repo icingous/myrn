@@ -1,7 +1,10 @@
+import { useCallback } from "react";
 import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import { colors } from "../../constants/colors";
 
 const Cart = ({ navigation }) => {
+  const goBack = useCallback(() => navigation.goBack(), [navigation]);
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -18,7 +21,7 @@ const Cart = ({ navigation }) => {
             <Text style={styles.modalText}>Hello Traveler!</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => navigation.goBack()}
+              onPress={goBack}
             >
               <Text style={styles.textStyle}>Hide Cart</Text>
             </Pressable>
