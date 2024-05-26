@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Switch, StyleSheet, Text, View } from "react-native";
 import withScreenContainer from "../../components/hoc/withScreenContainer";
 import { colors } from "../../constants/colors";
@@ -7,7 +7,7 @@ import ColorSchemeContext from "../../store/color-theme-context/colorThemeContex
 const More = () => {
   const { isSchemeLight, toggleScheme } = useContext(ColorSchemeContext) || {};
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((state) => !state);
+  const toggleSwitch = useCallback(() => setIsEnabled((state) => !state), []);
 
   return (
     <View style={styles.modalView}>

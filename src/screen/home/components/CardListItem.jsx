@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -23,7 +23,10 @@ const Card = ({ data }) => {
     foreground: true,
   };
   const navigation = useNavigation();
-  const navigateToCardData = () => navigation.navigate("Tour", data);
+  const navigateToCardData = useCallback(
+    () => navigation.navigate("Tour", data),
+    [data]
+  );
 
   return (
     <View style={[s.card, isSchemeLight ? s.cardLight : s.cardDark]}>
