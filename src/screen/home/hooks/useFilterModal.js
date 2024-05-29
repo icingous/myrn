@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useState } from "react";
 
 const useFilter = () => {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
-  const showFilterModal = () => setFilterModalVisible(true);
-  const closeFilterModal = () => setFilterModalVisible(false);
+  const showFilterModal = useCallback(() => setFilterModalVisible(true), []);
+  const closeFilterModal = useCallback(() => setFilterModalVisible(false), []);
 
   return {
     filterModalVisible,

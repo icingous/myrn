@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import CustomPressable from "../../../components/CustomPressable";
 import { FilterIcon, FindIcon, LikeIcon } from "../../../components/icons";
@@ -15,7 +15,7 @@ const ToolBar = ({ onFilter, onLike, search, setSearch }) => {
   const [isSearching, setIsSearching] = useState(false);
   const { isSchemeLight } = useContext(ColorSchemeContext);
   const toolIconProps = isSchemeLight ? lightToolIconProps : darkToolIconProps;
-  const toggleSearch = () => setIsSearching((state) => !state);
+  const toggleSearch = useCallback(() => setIsSearching((state) => !state), []);
 
   return (
     <View style={s.toolBar}>

@@ -1,19 +1,23 @@
+import { useCallback } from "react";
 import { StyleSheet, Text, Pressable, View } from "react-native";
 import { observer } from "mobx-react-lite";
 import EmptyCart from "./components/EmptyCart";
 import store from "../../store";
+
 import { colors } from "../../constants/colors";
 import CartItemList from "./components/CartItemList";
 
 const Cart = ({ navigation }) => {
   const { items, count, amount } = store.cart;
 
+  const goToTours = useCallback(
+    () => navigation.navigate("Tours", { replace: true }),
+    [navigation]
+  );
+  const goBack = useCallback(() => navigation.goBack(), [navigation]);
+
   if (count === 0) {
-    return (
-      <EmptyCart
-        toTours={() => navigation.navigate("Tours", { replace: true })}
-      />
-    );
+    return <EmptyCart toTours={goToTours} />;
   }
 
   return (
@@ -27,10 +31,7 @@ const Cart = ({ navigation }) => {
           <Text style={styles.totalText}>{`$${amount}`}</Text>
         </View>
       </View>
-      <Pressable
-        style={[styles.button, styles.buttonBuy]}
-        onPress={() => navigation.goBack()}
-      >
+      <Pressable style={[styles.button, styles.buttonBuy]} onPress={goBack}>
         <Text style={styles.buttonText}>Order</Text>
       </Pressable>
     </View>

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const useModal = () => {
   const [likeModalVisible, setLikeModalVisible] = useState(false);
-  const showLikeModal = () => setLikeModalVisible(true);
-  const closeLikeModal = () => setLikeModalVisible(false);
+  const showLikeModal = useCallback(() => setLikeModalVisible(true), []);
+  const closeLikeModal = useCallback(() => setLikeModalVisible(false), []);
 
   return {
     likeModalVisible,

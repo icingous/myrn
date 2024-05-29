@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import BackButton from "./BackButton";
 import RouteTitle from "./RouteTitle";
@@ -5,6 +6,8 @@ import { colors } from "../constants/colors";
 
 const AppHeader = (props) => {
   const { navigation, route, back, isSchemeLight } = props;
+
+  const goBack = useCallback(() => navigation.goBack(), []);
 
   return (
     <View
@@ -22,7 +25,7 @@ const AppHeader = (props) => {
         Travel Store
       </Text>
       <View style={styles.navHeader}>
-        {back && <BackButton onPress={() => navigation.goBack()} />}
+        {back && <BackButton onPress={goBack} />}
         <RouteTitle route={route} />
       </View>
     </View>

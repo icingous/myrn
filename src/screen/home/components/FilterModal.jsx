@@ -1,24 +1,26 @@
-import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Checkbox from 'expo-checkbox';
-import { HorizontalModal, CustomPressable } from '../../../components';
+import { useCallback, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Checkbox from "expo-checkbox";
+import { HorizontalModal, CustomPressable } from "../../../components";
 import {
   iconButton,
   iconButtonRipple,
   toolIconProps,
-} from '../../../constants/styles';
-import { CloseIcon } from '../../../components/icons';
+} from "../../../constants/styles";
+import { CloseIcon } from "../../../components/icons";
 
 const FilterModal = ({ close, visible, setVisible, filter, setFilter }) => {
   const [values, setValues] = useState(filter);
 
-  const onNewOnlyChange = (value) =>
-    setValues((values) => ({ ...values, newOnly: value }));
+  const onNewOnlyChange = useCallback(
+    (value) => setValues((values) => ({ ...values, newOnly: value })),
+    []
+  );
 
-  const onSetFilter = () => {
+  const onSetFilter = useCallback(() => {
     setFilter(values);
     close();
-  };
+  }, [close, values]);
 
   return (
     <HorizontalModal visible={visible} setVisible={setVisible}>
@@ -52,12 +54,12 @@ const FilterModal = ({ close, visible, setVisible, filter, setFilter }) => {
 
 const styles = StyleSheet.create({
   modalView: {
-    width: '50%',
+    width: "50%",
     marginBottom: 0,
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
     padding: 10,
     // alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -67,8 +69,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   filtersHeader: {
     fontSize: 30,
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   formItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 10,
   },
   formLabel: {
@@ -86,12 +88,12 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   text: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   button: {
     borderRadius: 20,
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
   },
   buttonSubmit: {
     marginTop: 24,

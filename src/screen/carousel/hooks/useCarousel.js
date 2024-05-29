@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "react-native";
 import { SIZE, TIMEOUT } from "../config";
 
@@ -11,16 +11,19 @@ const useCarousel = () => {
   const noSwipeLeft = current === 0;
   const noSwipeRight = current === SIZE - 1;
 
-  const onScroll = ({ nativeEvent: e }) => {
-    const { contentOffset: offset, layoutMeasurement: layout } = e;
-    const index = Math.floor(offset.x / layout.width);
+  const onScroll = useCallback(
+    ({ nativeEvent: e }) => {
+      const { contentOffset: offset, layoutMeasurement: layout } = e;
+      const index = Math.floor(offset.x / layout.width);
 
-    if (index !== current) {
-      setCurrent(index);
-    }
-  };
+      if (index !== current) {
+        setCurrent(index);
+      }
+    },
+    [current]
+  );
 
-  const scrollToNext = () => {
+  const scrollToNext = useCallback(() => {
     if (!listRef.current) return;
 
     if (timer) {
@@ -32,9 +35,9 @@ const useCarousel = () => {
       animated: true,
     });
     setCurrent((current) => current + 1);
-  };
+  }, [timer]);
 
-  const scrollToPrev = () => {
+  const scrollToPrev = useCallback(() => {
     if (!listRef.current) return;
 
     if (timer) {
@@ -46,30 +49,36 @@ const useCarousel = () => {
       animated: true,
     });
     setCurrent((current) => current - 1);
-  };
+  }, [timer]);
 
-  const scrollToIndex = (index, resetTimer) => {
-    if (!listRef.current) return;
+  const scrollToIndex = useCallback(
+    (index, resetTimer) => {
+      if (!listRef.current) return;
 
-    if (resetTimer) {
-      clearInterval(timer);
-    }
+      if (resetTimer) {
+        clearInterval(timer);
+      }
 
-    setCurrent(index);
-    listRef.current.scrollToOffset({
-      offset: index * width,
-      animated: true,
-    });
-  };
+      setCurrent(index);
+      listRef.current.scrollToOffset({
+        offset: index * width,
+        animated: true,
+      });
+    },
+    [timer]
+  );
 
-  const timerFn = () => {
+  const timerFn = useCallback(() => {
     const index = current === SIZE - 1 ? 0 : current + 1;
 
     scrollToIndex(index);
-  };
+  }, [current, scrollToIndex]);
 
-  const pauseCarousel = () => clearTimeout(timer);
-  const resumeCarousel = () => setTimeout(timerFn, TIMEOUT);
+  const pauseCarousel = useCallback(() => clearTimeout(timer), [timer]);
+  const resumeCarousel = useCallback(
+    () => setTimeout(timerFn, TIMEOUT),
+    [timerFn]
+  );
 
   useEffect(() => {
     clearInterval(timer);

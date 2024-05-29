@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Image, Text, View } from "react-native";
 import { observer } from "mobx-react-lite";
 import { LikeIcon, ShareIcon } from "../../components/icons";
@@ -17,6 +18,11 @@ const Tour = ({ navigation, route }) => {
     priceStyle,
     addToCart,
   } = useTour(route);
+
+  const navigateToCart = useCallback(() => {
+    addToCart();
+    navigation.getParent().navigate("Cart");
+  }, [navigation]);
 
   return (
     <View style={s.container}>
@@ -65,10 +71,7 @@ const Tour = ({ navigation, route }) => {
                 radius: 50,
                 borderless: false,
               }}
-              onPress={() => {
-                addToCart();
-                navigation.getParent().navigate("Cart");
-              }}
+              onPress={navigateToCart}
             >
               <Text style={s.buyPrompt}>Buy</Text>
             </CustomPressable>
