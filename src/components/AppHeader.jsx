@@ -1,15 +1,17 @@
 import { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { observer } from "mobx-react-lite";
 import BackButton from "./BackButton";
 import RouteTitle from "./RouteTitle";
 import { colors } from "../constants/colors";
+import store from "../store";
 
 const AppHeader = (props) => {
   const { navigation, route, back, isSchemeLight } = props;
-
   const goBack = useCallback(() => navigation.goBack(), []);
 
-  return (
+  return route.name !== "Home" ||
+    (route.name === "Home" && store.tours.isHeaderVisible) ? (
     <View
       style={[
         styles.header,
@@ -29,7 +31,7 @@ const AppHeader = (props) => {
         <RouteTitle route={route} />
       </View>
     </View>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({
@@ -61,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppHeader;
+export default observer(AppHeader);

@@ -6,6 +6,7 @@ class TourStore {
   topFive = [];
   isLoading = false;
   pageCount = 0;
+  isHeaderVisible = true;
 
   constructor() {
     makeAutoObservable(this);
@@ -14,6 +15,7 @@ class TourStore {
   setIsLoading = (isLoading) => (this.isLoading = isLoading);
   setTours = (tours) => (this.tours = tours);
   setTopFive = (tours) => (this.topFive = tours);
+  setHeaderVisible = (visible) => (this.isHeaderVisible = visible);
 
   getItems = (size = 200) => {
     this.setIsLoading(true);
@@ -36,7 +38,7 @@ class TourStore {
   };
 
   getPageItems = (imageSize = 200) => {
-    this.isLoading = true;
+    this.setIsLoading(true);
 
     return api
       .getPageItems(this.pageCount, imageSize)
@@ -47,11 +49,11 @@ class TourStore {
         });
       })
       .catch((e) => console.log(e.message))
-      .finally(() => (this.isLoading = false));
+      .finally(() => this.setIsLoading(false));
   };
 
   getPageItemsReversed = (imageSize = 200) => {
-    this.isLoading = true;
+    this.setIsLoading(true);
 
     return api
       .getPageItemsReversed(this.pageCount, imageSize)
@@ -62,7 +64,7 @@ class TourStore {
         });
       })
       .catch((e) => console.log(e.message))
-      .finally(() => (this.isLoading = false));
+      .finally(() => this.setIsLoading(false));
   };
 }
 

@@ -40,10 +40,10 @@ const useItems = () => {
   }, [newOnly, search, pageCount]);
 
   const onRefresh = useCallback(() => {
-    if (newOnly || search) return;
+    if (newOnly || search || pageCount > 3) return;
 
     getPageItemsReversed(800);
-  }, [newOnly, search, storedItems]);
+  }, [newOnly, search, pageCount]);
 
   return {
     items,
